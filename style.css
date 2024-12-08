@@ -1,0 +1,21 @@
+nav{
+    display: flex;
+    background-color: black;
+}
+nav h3{
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 20px;
+}
+span{
+    color: white;
+}
+table, th, td {
+    border:1px solid black;
+  }
+img{
+    height: 40px;
+    width: 40px;
+    max-width: 120px;
+}

@@ -18,6 +18,24 @@ cards.forEach((card) => {
     board.push(card.src)
 })
 
+function shuffle(array){
+    let currentIndex=cards.length
+    //while there's remaining elements to shuffle
+    while(currentIndex !=0){
+        //pick a remaining element
+        let randomIndex = Math.floor(Math.random() * currentIndex)
+        currentIndex--
+        //swap it with current element
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+}
+
+shuffle(board)
+
+
+console.log("i did stop at shuffling")
+
 
 cards.forEach((card, index) => {
     card.src = "./card.png"
@@ -101,5 +119,7 @@ function resetGame(){
         card1Index=null
         card2Index=null
         checkWinning = ["", "", "", "", "", "", "", "", "", "", "", ""]
+        shuffle(board)
+
     })
 }

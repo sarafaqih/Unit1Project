@@ -1,5 +1,9 @@
-let cards = document.querySelectorAll("img")
-let wins = document.querySelector("#winscount")
+let cardsElement = document.querySelectorAll("img")
+let winsElement = document.querySelector("#winscount")
+let timeElement = document.querySelector("#time")
+
+// let levelElement = document.querySelectorAll("#gameLevel")
+// let selectedLevel = document.querySelector("#level")
 
 let card1=null
 let card2=null
@@ -9,17 +13,24 @@ const board = []
 
 let checkWinning = ["", "", "", "", "", "", "", "", "", "", "", ""]
 
+timeElement.textContent=0
+let startTime = null
+let timeInterval=null
+let elapsedTime=0
+
 let winCount=0
-wins.textContent = winCount
+winsElement.textContent = winCount
+
+// let gameLevel = null
 
 
 
-cards.forEach((card) => {
+cardsElement.forEach((card) => {
     board.push(card.src)
 })
 
 function shuffle(array){
-    let currentIndex=cards.length
+    let currentIndex=cardsElement.length
     //while there's remaining elements to shuffle
     while(currentIndex !=0){
         //pick a remaining element
@@ -33,15 +44,27 @@ function shuffle(array){
 
 shuffle(board)
 
+// levelElement.forEach((level) => {
+//     level.addEventListener("click", () => {       
+//     if(gameLevel !=null){
+//         console.log("please reset the game")
+//     }
+//     else{
+//         gameLevel = level.textContent
+//         console.log(selectedLevel)
+//         selectedLevel.innerText = "Level: " + gameLevel
+//         console.log(gameLevel)
+//         closeDropDown()
+//     }    
+// })
+// })
 
-console.log("i did stop at shuffling")
-
-
-cards.forEach((card, index) => {
+cardsElement.forEach((card, index) => {
     card.src = "./card.png"
     card.alt = "card.png"
 
     card.addEventListener("click", () => {
+
         if(card1!==null && card.src===card1){
             return console.log("dont select me twice")
         }
@@ -49,6 +72,11 @@ cards.forEach((card, index) => {
             card.src = board[index]
             card1 = card.src
             card1Index=index
+            
+            if(!startTime){
+                startTime= Date.now()
+                timeInterval = setInterval(timer, 1000) // update every second
+            }
         }
         else if(card1 !==null || card2=== null){
             card.src = board[index]
@@ -91,8 +119,8 @@ function checkCards(){
         console.log("does not match")
         card1=null
         card2=null
-        cards[card1Index].src="./card.png"
-        cards[card2Index].src="./card.png"
+        cardsElement[card1Index].src="./card.png"
+        cardsElement[card2Index].src="./card.png"
 }
 console.log(checkWinning)
 }
@@ -106,12 +134,15 @@ function countWin(){
     else if (!(checkWinning.includes(false))) {
         console.log("all  cards matches")
         winCount=winCount+1
-        wins.textContent = winCount
+        winsElement.textContent = winCount
+
+        //stop timer
+        clearInterval(timeInterval)
     }
 }
 
 function resetGame(){
-    cards.forEach((card)=>{
+    cardsElement.forEach((card)=>{
         card.src = "./card.png"
         card.alt = "card.png"
         card1=null
@@ -119,7 +150,40 @@ function resetGame(){
         card1Index=null
         card2Index=null
         checkWinning = ["", "", "", "", "", "", "", "", "", "", "", ""]
-        shuffle(board)
-
+        //gameLevel = null
     })
+    shuffle(board)
+    elapsedTime=0
+    timeElement.textContent = "0 s"
+    startTime=null
+    clearInterval(timeInterval)
+
 }
+
+function timer(){
+    elapsedTime = Math.floor((Date.now() - startTime) / 1000)
+    timeElement.textContent = `${elapsedTime}s`
+}
+
+// function dropdown(){
+//     document.querySelector("#myDropDown").classList.toggle("show")
+// }
+// window.onclick = function(event) {
+//     if (!event.target.matches('.dropbtn')) {
+//       var dropdowns = document.querySelector(".dropdown-content");
+//       var i;
+//       for (i = 0; i < dropdowns.length; i++) {
+//         var openDropdown = dropdowns[i];
+//         if (openDropdown.classList.contains('show')) {
+//           openDropdown.classList.remove('show');
+//         }
+//       }
+//     }
+//   }
+
+//   function closeDropDown(){
+//     var dropdowns = document.querySelectorAll(".dropdown-content");
+//     dropdowns.forEach((dropdown)=> {
+//         dropdown.classList.remove("show")
+//     })
+//   }

@@ -10,9 +10,16 @@
 <body>
 
     <nav>
-        <h3 id="level">Level</h3>
         <h3 id="title">Memory Game</h3>
+        <div class="dropdown">
+            <h3 id="level"><button onclick="dropdown()" class="dropbtn">Level</button></h3>
+            <div id="myDropDown" class="dropdown-content">
+                <h3 id="gameLevel">Easy</h3>
+                <h3 id="gameLevel">Hard</h3>
+            </div>
+        </div>
         <h3 id="wins">Number of Wins <span id="winscount"></span></h3>
+        <h3 id="timeelapsed">Time <span id="time"></span></h3>
     </nav>
 
         <table style="width:100%">

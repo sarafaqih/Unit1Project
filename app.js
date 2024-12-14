@@ -50,11 +50,14 @@ shuffle(board)
 levelElement.forEach((level) => {
     level.addEventListener("click", () => {       
     if(gameLevel !=null){
-        console.log("please reset the game")
+        alertLevel.textContent = 'Please reset the game to change the level'
+        alertLevel.style.color="red" 
+        alertLevel.style.textAlign="center" 
     }
     else{
         gameLevel = level.textContent
         selectedLevel.textContent = "Level: " + gameLevel
+        alertLevel.textContent=''
         closeDropDown()
     }    
 })
@@ -69,12 +72,13 @@ cardsElement.forEach((card, index) => {
         if(gameLevel === null){
             alertLevel.textContent = 'Please Select a Level'
             alertLevel.style.color="red" 
+            alertLevel.style.textAlign="center" 
         }
         else{
             alertLevel.textContent=''
-    
+        //disable user from selecting the same card twice
         if(card1!==null && card.src===card1){
-            return console.log("dont select me twice")
+            return
         }
         if(card1 === null){
             card.src = board[index]
@@ -92,11 +96,8 @@ cardsElement.forEach((card, index) => {
             card2Index=index
         }
         else{
-            return console.log("here")
-        }
-        console.log("card 1 " + card1)
-        console.log("card 2 " +card2)
-        
+            return
+        }        
         setTimeout(() => {
             checkCards(),
             countWin()
@@ -112,35 +113,34 @@ cardsElement.forEach((card, index) => {
 
 
 function checkCards(){
+    //if cards matches
     if(card1 === card2){
-        console.log(" matchy matchy")
         card1=null
         card2=null
         checkWinning[card1Index]= true
         checkWinning[card2Index]= true
 
     }
+    //if user selects card1 only
     else if(card1!==null && card2===null){
         return
     }
+    //if cards does not match
     else{
-        console.log("does not match")
         card1=null
         card2=null
         cardsElement[card1Index].src="./card.png"
         cardsElement[card2Index].src="./card.png"
 }
-console.log(checkWinning)
 }
 
 function countWin(){
-    console.log(!(checkWinning.includes("")))
+    //if user didnt win yet
     if(checkWinning.includes("")){
-        console.log("too soon")
-
+        return
     }
+    //if all cards are matched and the user did win
     else if (!(checkWinning.includes(false))) {
-        console.log("all  cards matches")
         winCount=winCount+1
         winsElement.textContent = winCount
 
@@ -148,7 +148,7 @@ function countWin(){
         clearInterval(timeInterval)
     }
     else{
-        console.log("time is up")
+        return
     }
 }
 
@@ -173,19 +173,25 @@ function resetGame(){
     
     gameLevel = null
     selectedLevel.textContent = "Level"
-    console.log(selectedLevel)
-
+    
+    setTimeout(() => {
+        alertLevel.textContent = ''
+    }, 700);
 }
 
 function timer(){
     elapsedTime = Math.floor((Date.now() - startTime) / 1000)
     timeElement.textContent = `${elapsedTime}s`
     if(elapsedTime > 50 && gameLevel==='Easy'){
-        console.log("Easy - Time is up")
+        alertLevel.textContent = 'Time is up'
+        alertLevel.style.color="red" 
+        alertLevel.style.textAlign="center" 
         resetGame()
     }
     else if(elapsedTime >40&& gameLevel==='Hard'){
-        console.log("Hard - Time is up")
+        alertLevel.textContent = 'Time is up'
+        alertLevel.style.color="red" 
+        alertLevel.style.textAlign="center" 
         resetGame()
     }
 }

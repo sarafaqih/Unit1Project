@@ -2,8 +2,10 @@ let cardsElement = document.querySelectorAll("img")
 let winsElement = document.querySelector("#winscount")
 let timeElement = document.querySelector("#time")
 
-// let levelElement = document.querySelectorAll("#gameLevel")
-// let selectedLevel = document.querySelector("#level")
+let levelElement = document.querySelectorAll("#gameLevel")
+let selectedLevel = document.querySelector("#level")
+
+let alertLevel = document.querySelector("#alert-level")
 
 let card1=null
 let card2=null
@@ -21,7 +23,7 @@ let elapsedTime=0
 let winCount=0
 winsElement.textContent = winCount
 
-// let gameLevel = null
+ let gameLevel = null
 
 
 
@@ -44,27 +46,33 @@ function shuffle(array){
 
 shuffle(board)
 
-// levelElement.forEach((level) => {
-//     level.addEventListener("click", () => {       
-//     if(gameLevel !=null){
-//         console.log("please reset the game")
-//     }
-//     else{
-//         gameLevel = level.textContent
-//         console.log(selectedLevel)
-//         selectedLevel.innerText = "Level: " + gameLevel
-//         console.log(gameLevel)
-//         closeDropDown()
-//     }    
-// })
-// })
+//select level game 
+levelElement.forEach((level) => {
+    level.addEventListener("click", () => {       
+    if(gameLevel !=null){
+        console.log("please reset the game")
+    }
+    else{
+        gameLevel = level.textContent
+        selectedLevel.textContent = "Level: " + gameLevel
+        closeDropDown()
+    }    
+})
+})
 
 cardsElement.forEach((card, index) => {
     card.src = "./card.png"
     card.alt = "card.png"
 
-    card.addEventListener("click", () => {
 
+    card.addEventListener("click", () => {
+        if(gameLevel === null){
+            alertLevel.textContent = 'Please Select a Level'
+            alertLevel.style.color="red" 
+        }
+        else{
+            alertLevel.textContent=''
+    
         if(card1!==null && card.src===card1){
             return console.log("dont select me twice")
         }
@@ -95,7 +103,7 @@ cardsElement.forEach((card, index) => {
 
         }, 700);
 
-
+    }
     })
 
 })
@@ -139,6 +147,9 @@ function countWin(){
         //stop timer
         clearInterval(timeInterval)
     }
+    else{
+        console.log("time is up")
+    }
 }
 
 function resetGame(){
@@ -150,40 +161,58 @@ function resetGame(){
         card1Index=null
         card2Index=null
         checkWinning = ["", "", "", "", "", "", "", "", "", "", "", ""]
-        //gameLevel = null
+        dropdown()
+
+
     })
     shuffle(board)
     elapsedTime=0
     timeElement.textContent = "0 s"
     startTime=null
     clearInterval(timeInterval)
+    
+    gameLevel = null
+    selectedLevel.textContent = "Level"
+    console.log(selectedLevel)
 
 }
 
 function timer(){
     elapsedTime = Math.floor((Date.now() - startTime) / 1000)
     timeElement.textContent = `${elapsedTime}s`
+    if(elapsedTime > 50 && gameLevel==='Easy'){
+        console.log("Easy - Time is up")
+        resetGame()
+    }
+    else if(elapsedTime >40&& gameLevel==='Hard'){
+        console.log("Hard - Time is up")
+        resetGame()
+    }
 }
 
-// function dropdown(){
-//     document.querySelector("#myDropDown").classList.toggle("show")
-// }
-// window.onclick = function(event) {
-//     if (!event.target.matches('.dropbtn')) {
-//       var dropdowns = document.querySelector(".dropdown-content");
-//       var i;
-//       for (i = 0; i < dropdowns.length; i++) {
-//         var openDropdown = dropdowns[i];
-//         if (openDropdown.classList.contains('show')) {
-//           openDropdown.classList.remove('show');
-//         }
-//       }
-//     }
-//   }
+function dropdown(){
+    document.querySelector("#myDropDown").classList.toggle("show")
+}
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.querySelector(".dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
 
-//   function closeDropDown(){
-//     var dropdowns = document.querySelectorAll(".dropdown-content");
-//     dropdowns.forEach((dropdown)=> {
-//         dropdown.classList.remove("show")
-//     })
-//   }
+  function closeDropDown(){
+    var dropdowns = document.querySelectorAll(".dropdown-content");
+    dropdowns.forEach((dropdown)=> {
+        dropdown.classList.remove("show")
+    })
+  }
+
+  function dropdownInstructions(){
+    document.querySelector("#myDropDown1").classList.toggle("show")
+}

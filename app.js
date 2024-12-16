@@ -58,6 +58,12 @@ levelElement.forEach((level) => {
         gameLevel = level.textContent
         selectedLevel.textContent = "Level: " + gameLevel
         alertLevel.textContent=''
+        if(gameLevel==='Easy'){
+            timeElement.textContent = '50 s'
+        }
+        else if(gameLevel==='Hard'){
+            timeElement.textContent = '40 s'  
+        }
         closeDropDown()
     }    
 })
@@ -180,15 +186,21 @@ function resetGame(){
 }
 
 function timer(){
-    elapsedTime = Math.floor((Date.now() - startTime) / 1000)
-    timeElement.textContent = `${elapsedTime}s`
-    if(elapsedTime > 50 && gameLevel==='Easy'){
+    if(gameLevel === 'Easy'){
+        elapsedTime = Math.floor(50 - (Date.now() - startTime) / 1000)
+        timeElement.textContent = `${elapsedTime}s`    
+    }
+    else{
+        elapsedTime = Math.floor(40 - (Date.now() - startTime) / 1000)
+        timeElement.textContent = `${elapsedTime}s`    
+    }
+    if(elapsedTime <= 0 &&  gameLevel==='Easy'){
         alertLevel.textContent = 'Time is up'
         alertLevel.style.color="red" 
         alertLevel.style.textAlign="center" 
         resetGame()
     }
-    else if(elapsedTime >40&& gameLevel==='Hard'){
+    else if(elapsedTime <0 && gameLevel==='Hard'){
         alertLevel.textContent = 'Time is up'
         alertLevel.style.color="red" 
         alertLevel.style.textAlign="center" 

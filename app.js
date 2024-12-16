@@ -64,7 +64,7 @@ levelElement.forEach((level) => {
 })
 
 cardsElement.forEach((card, index) => {
-    card.src = "./card.png"
+    card.src = "./img/card.png"
     card.alt = "card.png"
 
 
@@ -129,8 +129,8 @@ function checkCards(){
     else{
         card1=null
         card2=null
-        cardsElement[card1Index].src="./card.png"
-        cardsElement[card2Index].src="./card.png"
+        cardsElement[card1Index].src="./img/card.png"
+        cardsElement[card2Index].src="./img/card.png"
 }
 }
 
@@ -154,7 +154,7 @@ function countWin(){
 
 function resetGame(){
     cardsElement.forEach((card)=>{
-        card.src = "./card.png"
+        card.src = "./img/card.png"
         card.alt = "card.png"
         card1=null
         card2=null

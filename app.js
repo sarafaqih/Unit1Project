@@ -200,7 +200,7 @@ function timer(){
         alertLevel.style.textAlign="center" 
         resetGame()
     }
-    else if(elapsedTime <0 && gameLevel==='Hard'){
+    else if(elapsedTime <=0 && gameLevel==='Hard'){
         alertLevel.textContent = 'Time is up'
         alertLevel.style.color="red" 
         alertLevel.style.textAlign="center" 
